@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#ZP > div > kbd {
+    border: 1px solid red;
+    display: inline-block;
+    width: 4em;
+    height: 4em;
+    text-transform: uppercase;
+    position: relative;
+}
+
+main {
+    text-align: center;
+}
+
+#ZP {
+    display: inline-block;
+}
+
+#ZP > div > kbd > button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: none;
+}
+
+#ZP > div > kbd:hover > button {
+    display:inline-block;
+}

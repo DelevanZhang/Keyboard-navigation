@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘导航</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<header></header>
+<main>
+    <div id="ZP"></div>
+</main>
+<footer></footer>
+<script>
+    //创建一个对象，里面装上键盘上面所有字母
+    var keys = {
+        0: ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+        1: ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        2: ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+        length: 3
+    };
+    //创建一个对象，里面装有键盘字母对应的网址
+    var URl = {
+        q: 'qq.com',
+        w: 'weibo.com',
+        y: 'yy.com'
+
+    };
+    //判断浏览器是否有缓存
+    var URLCache = JSON.parse(localStorage.getItem('URL')|| 'null');
+    if(URLCache){
+        URl = URLCache;
+    };
+    // 在网页中自动生成3个div
+    //首先在网页中找到main标签
+    var mainzp = document.getElementById("ZP");
+    //在文档中创建3个div并添加到mainzp中
+    var indexkey = 0;
+    // console.log(keys.length);
+    while (indexkey < keys.length) {
+        var divzp = document.createElement('div')
+        mainzp.appendChild(divzp)
+        //在每一個div里面加上键盘上面个kbd
+        var indexdiv = 0;
+        // console.log(keys[indexkey].length);
+        while(indexdiv<keys[indexkey].length){
+            //在文档中创建kbd标签，将其添加到div中
+            var kbdzp = document.createElement('kbd');
+            divzp.appendChild(kbdzp);
+            //在kbd里面添加内容
+            kbdzp.textContent=(keys[indexkey])[indexdiv];
+            //在kbd里面添加一个编辑按钮，并且当鼠标浮动在上面在显示
+            var buttonzp = document.createElement('button');
+            buttonzp.textContent='编辑'
+            kbdzp.appendChild(buttonzp);
+            //为button添加点击事件,为button编辑ID
+            buttonzp.id=(keys[indexkey])[indexdiv];
+            buttonzp.onclick= function(event){
+                // console.log((event['target']).id);
+                //拿到用户编辑的网址，将它存入到浏览器
+                var userURL = prompt('请输入网址');
+                URl[((event['target']).id)]=userURL;
+                //将该网址存入本地浏览器
+                localStorage.setItem('URL',JSON.stringify(URl));
+                // console.log(URl);
+            }
+            indexdiv+=1;
+        }
+        indexkey += 1;
+    }
+//获取用户在界面的输入
+    document.onkeypress = function (keypress) {
+        //console.log(keypress); 通过key属性来获得具体字母
+        var keyword = keypress['key'];
+        //通过输入的字母找到对应的网址，在当前窗口或者新开窗口打开、
+        var webURl = 'http://'+URl[keyword];
+        //在当前窗口打开
+        // location.href=webURl;
+        //在新开窗口打开
+        window.open(webURl,'_blank');
+    }
+</script>
+</body>
+
+</html>
